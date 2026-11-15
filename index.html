@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Task Management System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h2>TaskMaster</h2>
+                        <span>Student Portal</span>
+                    </div>
+                </div>
+                <button class="btn-close-sidebar" id="closeSidebarBtn" aria-label="Close sidebar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <span class="nav-label">Navigation</span>
+                <ul class="nav-links">
+                    <li class="active" data-filter="all">
+                        <a href="javascript:void(0)"><i class="fa-solid fa-table-columns"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li data-filter="all">
+                        <a href="javascript:void(0)"><i class="fa-solid fa-list-check"></i> <span>All Tasks</span></a>
+                    </li>
+                    <li data-filter="pending">
+                        <a href="javascript:void(0)"><i class="fa-solid fa-hourglass-half"></i> <span>Pending Tasks</span></a>
+                    </li>
+                    <li data-filter="completed">
+                        <a href="javascript:void(0)"><i class="fa-solid fa-circle-check"></i> <span>Completed Tasks</span></a>
+                    </li>
+                    <li data-filter="overdue">
+                        <a href="javascript:void(0)"><i class="fa-solid fa-triangle-exclamation"></i> <span>Overdue Tasks</span></a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="student-profile">
+                    <div class="avatar">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <div class="profile-info">
+                        <strong>Student Portal</strong>
+                        <span>Academic Year 2026</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay for mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation / Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="btn-sidebar-toggle" id="toggleSidebarBtn" aria-label="Open sidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="welcome-heading">
+                        <h1>Student Task Manager</h1>
+                        <p class="subtitle">Organize, track, and complete your academic assignments efficiently.</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-primary" id="openAddTaskBtn">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add New Task</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Statistics Cards -->
+            <section class="stats-grid">
+                <div class="stat-card total" id="statCardTotal">
+                    <div class="stat-icon-wrapper">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-label">Total Tasks</span>
+                        <h3 class="stat-value" id="totalTasksCount">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card pending" id="statCardPending">
+                    <div class="stat-icon-wrapper">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-label">Pending Tasks</span>
+                        <h3 class="stat-value" id="pendingTasksCount">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card completed" id="statCardCompleted">
+                    <div class="stat-icon-wrapper">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-label">Completed Tasks</span>
+                        <h3 class="stat-value" id="completedTasksCount">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card overdue" id="statCardOverdue">
+                    <div class="stat-icon-wrapper">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-label">Overdue Tasks</span>
+                        <h3 class="stat-value" id="overdueTasksCount">0</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls: Search, Filters, Priority, Sorting -->
+            <section class="controls-panel">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search tasks by title, subject, or description...">
+                    <button class="clear-search-btn" id="clearSearchBtn" style="display: none;" title="Clear search">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="filter-actions">
+                    <div class="filter-group status-filter-group">
+                        <button class="filter-btn active" data-status="all">All</button>
+                        <button class="filter-btn" data-status="pending">Pending</button>
+                        <button class="filter-btn" data-status="completed">Completed</button>
+                        <button class="filter-btn" data-status="overdue">Overdue</button>
+                    </div>
+
+                    <div class="dropdown-filter-group">
+                        <div class="select-wrapper">
+                            <label for="priorityFilter" class="sr-only">Priority Filter</label>
+                            <select id="priorityFilter" aria-label="Filter by Priority">
+                                <option value="all">All Priorities</option>
+                                <option value="High">High Priority</option>
+                                <option value="Medium">Medium Priority</option>
+                                <option value="Low">Low Priority</option>
+                            </select>
+                        </div>
+
+                        <div class="select-wrapper">
+                            <label for="sortBy" class="sr-only">Sort Tasks</label>
+                            <select id="sortBy" aria-label="Sort Tasks">
+                                <option value="dueDateAsc">Due Date (Earliest First)</option>
+                                <option value="dueDateDesc">Due Date (Latest First)</option>
+                                <option value="priority">Priority (High to Low)</option>
+                                <option value="created">Recently Added</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Task List Section -->
+            <section class="task-section">
+                <div class="task-section-header">
+                    <div class="section-title">
+                        <h2 id="taskSectionTitle">All Tasks</h2>
+                        <span class="badge-count" id="activeFilterCount">0</span>
+                    </div>
+                    <div class="section-actions">
+                        <button class="btn-text" id="resetSampleDataBtn" title="Reset default academic sample tasks">
+                            <i class="fa-solid fa-rotate-left"></i> Reload Sample Tasks
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Container where tasks are dynamically injected -->
+                <div class="task-grid" id="taskListContainer">
+                    <!-- Task cards will be rendered here by script.js -->
+                </div>
+
+                <!-- Empty state when no tasks match -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">
+                        <i class="fa-regular fa-folder-open"></i>
+                    </div>
+                    <h3>No Tasks Found</h3>
+                    <p id="emptyStateText">No tasks match your current filters. Add a new task to get started!</p>
+                    <button class="btn-primary" id="emptyStateAddBtn">
+                        <i class="fa-solid fa-plus"></i> Add New Task
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal: Add / Edit Task -->
+    <div class="modal-backdrop" id="taskModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon" id="modalIcon">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <h3 id="modalTitle">Add New Task</h3>
+                </div>
+                <button class="btn-close-modal" id="closeModalBtn" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="taskForm" novalidate>
+                <input type="hidden" id="taskId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="taskTitle">Task Title <span class="required">*</span></label>
+                        <input type="text" id="taskTitle" placeholder="e.g., Final DevOps Pipeline Architecture Report" required maxlength="100">
+                        <span class="form-error" id="titleError">Please enter a task title.</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskSubject">Subject / Course <span class="required">*</span></label>
+                            <input type="text" id="taskSubject" placeholder="e.g., Cloud Computing & DevOps" required maxlength="50">
+                            <span class="form-error" id="subjectError">Please enter a subject name.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskPriority">Priority Level <span class="required">*</span></label>
+                            <select id="taskPriority" required>
+                                <option value="High">🔴 High Priority</option>
+                                <option value="Medium" selected>🟡 Medium Priority</option>
+                                <option value="Low">🟢 Low Priority</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDueDate">Due Date <span class="required">*</span></label>
+                        <input type="date" id="taskDueDate" required>
+                        <span class="form-error" id="dueDateError">Please select a valid due date.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDescription">Description</label>
+                        <textarea id="taskDescription" rows="4" placeholder="Add assignment details, submission requirements, or helpful notes..." maxlength="500"></textarea>
+                        <span class="char-count"><span id="charCount">0</span>/500 characters</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancelModalBtn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveTaskBtn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span id="saveBtnText">Save Task</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Confirmation for Task Deletion -->
+    <div class="modal-backdrop" id="deleteConfirmModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-sm">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon delete-icon">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                    <h3>Delete Task</h3>
+                </div>
+                <button class="btn-close-modal" id="closeDeleteModalBtn" aria-label="Close dialog">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this task? This action cannot be undone.</p>
+                <div class="delete-task-preview" id="deleteTaskPreview">
+                    <strong id="deleteTaskTitle">Task Title</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                <button type="button" class="btn-danger" id="confirmDeleteBtn">
+                    <i class="fa-solid fa-trash-can"></i> Delete Task
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
