@@ -6,8 +6,8 @@ A responsive, modern web-based Student Task Management application built with pu
 
 ## 🌐 Live Production Deployment
 
-- **Application URL:** [http://100.52.254.185](http://100.52.254.185)
-- **Health Check Endpoint:** [http://100.52.254.185/health](http://100.52.254.185/health)
+- **Application URL:** [http://54.91.6.226](http://54.91.6.226)
+- **Health Check Endpoint:** [http://54.91.6.226/health](http://54.91.6.226/health)
 - **GitHub Repository:** [https://github.com/AyushB-coder/student-task-management](https://github.com/AyushB-coder/student-task-management)
 
 ---
